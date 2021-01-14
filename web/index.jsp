@@ -15,7 +15,10 @@
         <div>Магазин парников</div>
         <p>${info}</p>
         <br>
-        <a href="addParnik">Добавить парник</a>
+        <a href="addParnik">Добавить парник</a><br>
+        <a href="addConsumer">Добавить покупателя</a><br>
+        <a href="listParniki">Список парников</a><br>
+        <a href="listConsumers">Список покупателей</a><br>
         
     </body>
 </html>

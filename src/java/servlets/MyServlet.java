@@ -5,13 +5,19 @@
  */
 package servlets;
 
+import entity.Consumers;
+import entity.Parniki;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import session.ConsumersFacade;
+import session.ParnikiFacade;
 
 /**
  *
@@ -19,10 +25,17 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "MyServlet", urlPatterns = {
     "/addParnik",
-    "/createParnik"
+    "/createParnik",
+    "/addConsumer",
+    "/createConsumer",
+    "/listParniki",
+    "/listConsumers"
 })
 public class MyServlet extends HttpServlet {
-
+    @EJB
+    private ParnikiFacade parnikFacade;
+    @EJB
+    private ConsumersFacade consumerFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,20 +54,65 @@ public class MyServlet extends HttpServlet {
             case "/addParnik":
                 request.getRequestDispatcher("/WEB-INF/addParnikForm.jsp").forward(request, response);
                 break;
+                
             case "/createParnik":
                 String name = request.getParameter("name");
                 String size = request.getParameter("size");
                 String amount = request.getParameter("amount");
                 String price = request.getParameter("price");
-                request.setAttribute("info", 
-                        "Данные из формы получены: Название: "+name+
-                        " Размер: "+size+
-                        " Количество: "+amount+
-                        " Цена: "+price
-                );
+                if ("".equals(name) || name == null 
+                        || "".equals(size) || size == null 
+                        || "".equals(amount) || amount == null 
+                        || "".equals(price) || price == null){
+                    request.setAttribute("info","Заполните все поля!");
+                    request.setAttribute("name",name);
+                    request.setAttribute("size",size);
+                    request.setAttribute("amount",amount);
+                    request.setAttribute("price",price);
+                    request.getRequestDispatcher("/WEB-INF/addParnikForm.jsp").forward(request, response);
+                    break;
+                }
+                Parniki parnik = new Parniki(name, size, Integer.parseInt(amount), Integer.parseInt(price));
+                parnikFacade.create(parnik);
+                request.setAttribute("info","Парник добавлен: " +parnik.toString());
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+                break;
+                
+            case "/addConsumer":
+                request.getRequestDispatcher("/WEB-INF/addConsumerForm.jsp").forward(request, response);
+                break;
+                
+            case "/createConsumer":
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String money = request.getParameter("money");
+                if ("".equals(firstName) || firstName == null 
+                        || "".equals(lastName) || lastName == null 
+                        || "".equals(money) || money == null){
+                    request.setAttribute("info","Заполните все поля!");
+                    request.setAttribute("firstName",firstName);
+                    request.setAttribute("lastName",lastName);
+                    request.setAttribute("money",money);
+                    request.getRequestDispatcher("/WEB-INF/addConsumerForm.jsp").forward(request, response);
+                    break;
+                }
+                Consumers consumer = new Consumers(firstName, lastName, Integer.parseInt(money));
+                consumerFacade.create(consumer);
+                request.setAttribute("info","Покупатель добавлен: " +consumer.toString());
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;
             
+            case "/listParniki":
+                List<Parniki> listParniki = parnikFacade.findAll();
+                request.setAttribute("listParniki", listParniki);
+                request.getRequestDispatcher("/WEB-INF/listParniki.jsp").forward(request, response);
+                break;
+            
+            case "/listConsumers":
+                List<Consumers> listConsumers = consumerFacade.findAll();
+                request.setAttribute("listConsumers", listConsumers);
+                request.getRequestDispatcher("/WEB-INF/listConsumers.jsp").forward(request, response);
+                break;
         }
     }
 

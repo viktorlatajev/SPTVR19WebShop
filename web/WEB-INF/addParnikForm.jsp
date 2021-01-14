@@ -14,11 +14,11 @@
     <body>
         <h1>Добавить парник</h1>
         <form action="createParnik" method="POST">
-            Название: <input type="text" name="name" value=""<br>
-            Размер: <input type="text" name="size" value=""<br>
-            Количество: <input type="text" name="amount" value=""<br>
-            Цена: <input type="text" name="price" value=""<br>
-            <input type="submit" name="submit" value="Отправить"<br>
+            Название: <input type="text" name="name" value="${name}"><br>
+            Размер: <input type="text" name="size" value="${size}"><br>
+            Количество: <input type="text" name="amount" value="${amount}"><br>
+            Цена: <input type="text" name="price" value="${price}"><br>
+            <input type="submit" name="submit" value="Добавить"><br>
         </form>
     </body>
 </html>
