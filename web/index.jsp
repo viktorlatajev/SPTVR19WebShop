@@ -19,6 +19,7 @@
         <a href="addConsumer">Добавить покупателя</a><br>
         <a href="listParniki">Список парников</a><br>
         <a href="listConsumers">Список покупателей</a><br>
+        <a href="buyProductForm">Купить товар</a><br>
         
     </body>
 </html>

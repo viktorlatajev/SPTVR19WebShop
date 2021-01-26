@@ -14,11 +14,13 @@
     </head>
     <body>
         <h1>Список парников</h1>
-        <ul>
+        <select name="parnikId" multiple="true">
+            <option value="">Список парников</option>
             <c:forEach var="parnik" items="${listParniki}">
-                <li><p>Название: ${parnik.name};</p> <p>Размер: ${parnik.size}м;</p> <p>Количество: ${parnik.amount}шт.;</p> <p>Цена: ${parnik.price}€.</p><br></li>
+                <option value="${book.id}"><p>Название: ${parnik.name};</p> <p>Размер: ${parnik.size}м;</p> <p>Количество: ${parnik.amount}шт.;</p> <p>Цена: ${parnik.price}€.</p><br></option>
             </c:forEach>
-        </ul>
+        </select>
+        
 
     </body>
 </html>

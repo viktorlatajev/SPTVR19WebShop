@@ -29,7 +29,10 @@ import session.ParnikiFacade;
     "/addConsumer",
     "/createConsumer",
     "/listParniki",
-    "/listConsumers"
+    "/listConsumers",
+    "/buyProductForm",
+    "/buyParnik"
+    
 })
 public class MyServlet extends HttpServlet {
     @EJB
@@ -112,6 +115,23 @@ public class MyServlet extends HttpServlet {
                 List<Consumers> listConsumers = consumerFacade.findAll();
                 request.setAttribute("listConsumers", listConsumers);
                 request.getRequestDispatcher("/WEB-INF/listConsumers.jsp").forward(request, response);
+                break;
+                
+            case "/buyProductForm":
+                listConsumers = consumerFacade.findAll();
+                request.setAttribute("listConsumers", listConsumers);
+                listParniki = parnikFacade.findAll();
+                request.setAttribute("listParniki", listParniki);
+                request.getRequestDispatcher("/WEB-INF/buyProductForm.jsp").forward(request, response);
+                break;
+                
+            case "/buyParnik":
+                String parnikId = request.getParameter("parnikId");
+                parnik = parnikFacade.find(Long.parseLong(parnikId));
+                String consumerId = request.getParameter("consumerId");
+                consumer = consumerFacade.find(Long.parseLong(consumerId));
+                request.setAttribute("info","Товар куплен");
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;
         }
     }

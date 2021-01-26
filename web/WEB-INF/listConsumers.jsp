@@ -14,10 +14,11 @@
     </head>
     <body>
         <h1>Список покупателей</h1>
-        <ul>
+        <select name="consumerId" multiple="true">
+            <option value="">Список покупателей</option>
             <c:forEach var="consumer" items="${listConsumers}">
-                <li><p>Имя: ${consumer.firstName};</p> <p>Фамилия: ${consumer.lastName};</p> <p>Деньги: ${consumer.money}€.</p><br></li>
+                <option value="${consumer.id}"><p>Имя: ${consumer.firstName};</p> <p>Фамилия: ${consumer.lastName};</p> <p>Деньги: ${consumer.money}€.</p><br></option>
             </c:forEach>
-        </ul>
+        </select>
     </body>
 </html>
