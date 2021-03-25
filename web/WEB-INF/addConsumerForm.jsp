@@ -9,14 +9,16 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Добавить покупателя</title>
+        <title>Регистрация</title>
     </head>
     <body>
-        <h1>Добавить покупателя</h1>
+        <h1>Регистрация</h1>
         <form action="createConsumer" method="POST">
             Имя: <input type="text" name="firstName" value="${firstName}"><br>
             Фамилия: <input type="text" name="lastName" value="${lastName}"><br>
             Деньги: <input type="text" name="money" value="${money}"><br>
+            Логин: <input type="text" name="login" value="${login}"><br>
+            Пароль: <input type="password" name="password" value=""><br>
             <input type="submit" name="submit" value="Добавить"><br>
         </form>
     </body>

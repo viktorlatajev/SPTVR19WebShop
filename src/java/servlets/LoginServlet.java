@@ -5,9 +5,12 @@
  */
 package servlets;
 
+import entity.Consumers;
+import entity.Products;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import session.ConsumersFacade;
+import session.ProductsFacade;
 import session.UserFacade;
 
 /**
@@ -24,10 +29,15 @@ import session.UserFacade;
 @WebServlet(name = "LoginServlet", urlPatterns = {
     "/showLoginForm",
     "/login",
-    "/logout"
+    "/logout",
+    "/addConsumer",
+    "/createCosnumer",
+    "/listProducts"
 })
 public class LoginServlet extends HttpServlet {
     @EJB private UserFacade userFacade;
+    @EJB private ConsumersFacade consumerFacade;
+    @EJB private ProductsFacade productFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -68,10 +78,52 @@ public class LoginServlet extends HttpServlet {
                 break;
                 
             case "/logout":
-                //...
+                session = request.getSession(false);
+                if (session != null) {
+                    session.invalidate();
+                }
+                request.setAttribute("info", "Вы вышли! :)");
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;
                 
+            case "/addConsumer":
+                request.getRequestDispatcher("/WEB-INF/addConsumerForm.jsp").forward(request, response);
+                break;
+                
+            case "/createConsumer":
+                String firstName = request.getParameter("firstName");
+                String lastName = request.getParameter("lastName");
+                String money = request.getParameter("money");
+                login = request.getParameter("login");
+                password = request.getParameter("password");
+                if ("".equals(firstName) || firstName == null 
+                        || "".equals(lastName) || lastName == null 
+                        || "".equals(money) || money == null
+                        || "".equals(login) || login == null
+                        || "".equals(password) || password == null){
+                    request.setAttribute("info","Заполните все поля!");
+                    request.setAttribute("firstName",firstName);
+                    request.setAttribute("lastName",lastName);
+                    request.setAttribute("money",money);
+                    request.setAttribute("login",login);
+                    request.setAttribute("password",password);
+                    request.getRequestDispatcher("/addConsumerForm").forward(request, response);
+                    break;
+                }
+                Consumers consumer = new Consumers(firstName, lastName, Integer.parseInt(money));
+                consumerFacade.create(consumer);
+                user = new User(login, password, consumer);
+                userFacade.create(user);
+                request.setAttribute("info","Покупатель добавлен: " +consumer.toString());
+                request.getRequestDispatcher("/index.jsp").forward(request, response);
+                break;
+            
+            case "/listProducts":
+                List<Products> listProducts = productFacade.findAll();
+                request.setAttribute("listProducts", listProducts);
+                request.getRequestDispatcher("/WEB-INF/listProducts.jsp").forward(request, response);
+                break;
+            
         }
     }
 

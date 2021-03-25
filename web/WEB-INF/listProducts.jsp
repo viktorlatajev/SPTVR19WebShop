@@ -1,5 +1,5 @@
 <%-- 
-    Document   : listParniki
+    Document   : listProducts
     Created on : 14.01.2021, 14:36:44
     Author     : Elena
 --%>
@@ -14,11 +14,11 @@
     </head>
     <body>
         <h1>Список парников</h1>
-        <form action="editParnikForm" method="POST">
-            <select name="parnikId" multiple="true">
+        <form action="editProductForm" method="POST">
+            <select name="productId" multiple="true">
                 <option value="">Список парников</option>
-                <c:forEach var="parnik" items="${listParniki}">
-                    <option value="${parnik.id}"><p>Название: ${parnik.name};</p> <p>Размер: ${parnik.size}м;</p> <p>Количество: ${parnik.amount}шт.;</p> <p>Цена: ${parnik.price}€.</p><br></option>
+                <c:forEach var="product" items="${listProducts}">
+                    <option value="${product.id}"><p>Название: ${product.name};</p> <p>Размер: ${product.size}м;</p> <p>Количество: ${product.amount}шт.;</p> <p>Цена: ${product.price}€.</p><br></option>
                 </c:forEach>
             </select>
             <input type="submit" value="Изменить">

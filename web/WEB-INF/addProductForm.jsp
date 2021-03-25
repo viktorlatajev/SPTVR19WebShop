@@ -1,5 +1,5 @@
 <%-- 
-    Document   : addParnikForm
+    Document   : addProductForm
     Created on : 14.01.2021, 9:10:32
     Author     : Elena
 --%>
@@ -13,7 +13,7 @@
     </head>
     <body>
         <h1>Добавить парник</h1>
-        <form action="createParnik" method="POST">
+        <form action="createProduct" method="POST">
             Название: <input type="text" name="name" value="${name}"><br>
             Размер: <input type="text" name="size" value="${size}"><br>
             Количество: <input type="text" name="amount" value="${amount}"><br>

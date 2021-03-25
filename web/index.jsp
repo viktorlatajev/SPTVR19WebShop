@@ -15,11 +15,11 @@
         <div>Магазин парников</div>
         <p>${info}</p>
         <br>
-        <a href="showLoginForm">Войти</a><br>
-        <a href="logout">Выйти</a><br>
-        <a href="addParnik">Добавить парник</a><br>
-        <a href="addConsumer">Добавить покупателя</a><br>
-        <a href="listParniki">Список парников</a><br>
+        <a href="showLoginForm">Вход</a><br>
+        <a href="addConsumer">Регистрация</a><br>
+        <a href="logout">Выход</a><br>
+        <a href="addProduct">Добавить парник</a><br>
+        <a href="listProducts">Список парников</a><br>
         <a href="listConsumers">Список покупателей</a><br>
         <a href="buyProductForm">Купить товар</a><br>
         

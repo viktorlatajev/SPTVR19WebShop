@@ -16,10 +16,10 @@
         <h1>Купить товар</h1>
         <p>${info}</p>
         <form action="buyProduct" method="POST">
-            <select name="parnikId">
+            <select name="productId">
                 <option value="">Выберите парник</option>
-                <c:forEach var="parnik" items="${listParniki}">
-                    <option value="${parnik.id}"><p>Название: ${parnik.name};</p> <p>Размер: ${parnik.size}м;</p> <p>Количество: ${parnik.amount}шт.;</p> <p>Цена: ${parnik.price}€.</p><br></option>
+                <c:forEach var="product" items="${listProducts}">
+                    <option value="${product.id}"><p>Название: ${product.name};</p> <p>Размер: ${product.size}м;</p> <p>Количество: ${product.amount}шт.;</p> <p>Цена: ${product.price}€.</p><br></option>
                 </c:forEach>
             </select>
             <br>

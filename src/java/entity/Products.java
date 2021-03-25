@@ -16,7 +16,7 @@ import javax.persistence.Id;
  * @author user
  */
 @Entity
-public class Parniki implements Serializable, EntityInterface{
+public class Products implements Serializable, EntityInterface{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,10 +25,10 @@ public class Parniki implements Serializable, EntityInterface{
     private Integer amount;
     private Integer price;
     
-    public Parniki(){
+    public Products(){
         
     }
-    public Parniki(String name, String size, Integer amount, Integer price) {
+    public Products(String name, String size, Integer amount, Integer price) {
         this.name = name;
         this.size = size;
         this.amount = amount;
@@ -69,7 +69,7 @@ public class Parniki implements Serializable, EntityInterface{
 
     @Override
     public String toString() {
-        return "Parniki{" 
+        return "Products{" 
                 + "name=" + name 
                 + ", size=" + size + "м"
                 + ", amount=" + amount + "шт."
