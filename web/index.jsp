@@ -15,6 +15,8 @@
         <div>Магазин парников</div>
         <p>${info}</p>
         <br>
+        <a href="showLoginForm">Войти</a><br>
+        <a href="logout">Выйти</a><br>
         <a href="addParnik">Добавить парник</a><br>
         <a href="addConsumer">Добавить покупателя</a><br>
         <a href="listParniki">Список парников</a><br>

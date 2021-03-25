@@ -26,12 +26,16 @@ import session.ParnikiFacade;
 @WebServlet(name = "MyServlet", urlPatterns = {
     "/addParnik",
     "/createParnik",
+    "/editParnikForm",
+    "/editParnik",
     "/addConsumer",
     "/createConsumer",
+    "/editConsumerForm",
+    "/editConsumer",
     "/listParniki",
     "/listConsumers",
     "/buyProductForm",
-    "/buyParnik"
+    "/buyProduct"
     
 })
 public class MyServlet extends HttpServlet {
@@ -81,6 +85,39 @@ public class MyServlet extends HttpServlet {
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;
                 
+            case "/editParnikForm":
+                String parnikId = request.getParameter("parnikId");
+                parnik = parnikFacade.find(Long.parseLong(parnikId));
+                request.setAttribute("parnik", parnik);
+                request.getRequestDispatcher("/WEB-INF/editParnikForm.jsp").forward(request, response);
+                break;
+                
+            case "/editParnik":
+                parnikId = request.getParameter("parnikId");
+                parnik = parnikFacade.find(Long.parseLong(parnikId));
+                name = request.getParameter("name");
+                size = request.getParameter("size");
+                amount = request.getParameter("amount");
+                price = request.getParameter("price");
+                if ("".equals(name) || name == null 
+                        || "".equals(size) || size == null 
+                        || "".equals(amount) || amount == null 
+                        || "".equals(price) || price == null){
+                    request.setAttribute("info","Поля не должны быть пустыми!");
+                    request.setAttribute("parnikId", parnik.getId());
+                    request.getRequestDispatcher("/editParnikForm").forward(request, response);
+                    break;
+                }
+                parnik.setName(name);
+                parnik.setSize(size);
+                parnik.setAmount(Integer.parseInt(amount));
+                parnik.setPrice(Integer.parseInt(price));
+                parnikFacade.edit(parnik);
+                request.setAttribute("info","Товар отредактирован!");
+                request.setAttribute("parnikId", parnik.getId());
+                request.getRequestDispatcher("/editParnikForm").forward(request, response);
+                break;
+                
             case "/addConsumer":
                 request.getRequestDispatcher("/WEB-INF/addConsumerForm.jsp").forward(request, response);
                 break;
@@ -105,6 +142,36 @@ public class MyServlet extends HttpServlet {
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;
             
+            case "/editConsumerForm":
+                String consumerId = request.getParameter("consumerId");
+                consumer = consumerFacade.find(Long.parseLong(consumerId));
+                request.setAttribute("consumer", consumer);
+                request.getRequestDispatcher("/WEB-INF/editConsumerForm.jsp").forward(request, response);
+                break;
+                
+            case "/editConsumer":
+                consumerId = request.getParameter("consumerId");
+                consumer = consumerFacade.find(Long.parseLong(consumerId));
+                firstName = request.getParameter("firstName");
+                lastName = request.getParameter("lastName");
+                money = request.getParameter("money");
+                if ("".equals(firstName) || firstName == null 
+                        || "".equals(lastName) || lastName == null 
+                        || "".equals(money) || money == null){
+                    request.setAttribute("info","Поля не должны быть пустыми!");
+                    request.setAttribute("consumerId", consumer.getId());
+                    request.getRequestDispatcher("/editConsumerForm").forward(request, response);
+                    break;
+                }
+                consumer.setFirstName(firstName);
+                consumer.setLastName(lastName);
+                consumer.setMoney(Integer.parseInt(money));
+                consumerFacade.edit(consumer);
+                request.setAttribute("info","Пользователь отредактирован!");
+                request.setAttribute("consumerId", consumer.getId());
+                request.getRequestDispatcher("/editConsumerForm").forward(request, response);
+                break;
+                
             case "/listParniki":
                 List<Parniki> listParniki = parnikFacade.findAll();
                 request.setAttribute("listParniki", listParniki);
@@ -125,11 +192,36 @@ public class MyServlet extends HttpServlet {
                 request.getRequestDispatcher("/WEB-INF/buyProductForm.jsp").forward(request, response);
                 break;
                 
-            case "/buyParnik":
-                String parnikId = request.getParameter("parnikId");
+            case "/buyProduct":
+                parnikId = request.getParameter("parnikId");
                 parnik = parnikFacade.find(Long.parseLong(parnikId));
-                String consumerId = request.getParameter("consumerId");
+                consumerId = request.getParameter("consumerId");
                 consumer = consumerFacade.find(Long.parseLong(consumerId));
+                
+                if ("".equals(parnikId) || parnikId == null 
+                        || "".equals(consumerId) || consumerId == null){
+                    
+                    request.setAttribute("info","Заполните все поля!");
+                    listConsumers = consumerFacade.findAll();
+                    request.setAttribute("listConsumers", listConsumers);
+                    listParniki = parnikFacade.findAll();
+                    request.setAttribute("listParniki", listParniki);
+                    request.getRequestDispatcher("/WEB-INF/buyProductForm.jsp").forward(request, response);
+                    break;
+                }
+                if (consumer.getMoney()<parnik.getPrice()) {
+                    request.setAttribute("info", "Недостаточно средств");
+                    listConsumers = consumerFacade.findAll();
+                    request.setAttribute("listConsumers", listConsumers);
+                    listParniki = parnikFacade.findAll();
+                    request.setAttribute("listParniki", listParniki);
+                    request.getRequestDispatcher("/WEB-INF/buyProductForm.jsp").forward(request, response);
+                    break;
+                }
+                consumer.setMoney(consumer.getMoney()-(parnik.getPrice()));
+                consumerFacade.edit(consumer);
+                parnik.setAmount(parnik.getAmount()-1);
+                parnikFacade.edit(parnik);
                 request.setAttribute("info","Товар куплен");
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;

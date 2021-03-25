@@ -14,13 +14,15 @@
     </head>
     <body>
         <h1>Список парников</h1>
-        <select name="parnikId" multiple="true">
-            <option value="">Список парников</option>
-            <c:forEach var="parnik" items="${listParniki}">
-                <option value="${book.id}"><p>Название: ${parnik.name};</p> <p>Размер: ${parnik.size}м;</p> <p>Количество: ${parnik.amount}шт.;</p> <p>Цена: ${parnik.price}€.</p><br></option>
-            </c:forEach>
-        </select>
-        
+        <form action="editParnikForm" method="POST">
+            <select name="parnikId" multiple="true">
+                <option value="">Список парников</option>
+                <c:forEach var="parnik" items="${listParniki}">
+                    <option value="${parnik.id}"><p>Название: ${parnik.name};</p> <p>Размер: ${parnik.size}м;</p> <p>Количество: ${parnik.amount}шт.;</p> <p>Цена: ${parnik.price}€.</p><br></option>
+                </c:forEach>
+            </select>
+            <input type="submit" value="Изменить">
+        </form>
 
     </body>
 </html>
