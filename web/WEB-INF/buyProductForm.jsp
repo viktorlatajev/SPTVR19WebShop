@@ -23,12 +23,7 @@
                 </c:forEach>
             </select>
             <br>
-            <select name="consumerId">
-                <option value="">Выберите покупателя</option>
-                <c:forEach var="consumer" items="${listConsumers}">
-                    <option value="${consumer.id}"><p>Имя: ${consumer.firstName};</p> <p>Фамилия: ${consumer.lastName};</p> <p>Деньги: ${consumer.money}€.</p><br></option>
-                </c:forEach>
-            </select>
+            
             <br>
             <input type="submit" value="Купить товар">
         </form>

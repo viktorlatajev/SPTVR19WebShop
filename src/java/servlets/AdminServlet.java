@@ -6,7 +6,6 @@
 package servlets;
 
 import entity.Consumers;
-import entity.Products;
 import entity.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,13 +26,11 @@ import session.UserRolesFacade;
  *
  * @author Elena
  */
-@WebServlet(name = "UserServlet", urlPatterns = {
-    
-    "/buyProductForm",
-    "/buyProduct"
+@WebServlet(name = "AdminServlet", urlPatterns = {
+    "/listConsumers",
     
 })
-public class UserServlet extends HttpServlet {
+public class AdminServlet extends HttpServlet {
     @EJB
     private ProductsFacade productFacade;
     @EJB
@@ -67,43 +64,21 @@ public class UserServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/showLoginForm.jsp").forward(request, response);
             return;
         }
-        boolean isRole = userRolesFacade.isRole("CONSUMER", user);
+        boolean isRole = userRolesFacade.isRole("SUPER ADMIN", user);
         if(!isRole) {
-            request.setAttribute("info", "Войдите в систему!");
+            request.setAttribute("info", "У вас нет прав! Войдите в систему с правами суперадмина!");
             request.getRequestDispatcher("/WEB-INF/showLoginForm.jsp").forward(request, response);
             return;
         }
         String path = request.getServletPath();
-        switch (path) {  
-            case "/buyProductForm":
-                List<Products> listProducts = productFacade.findAll();
-                request.setAttribute("listProducts", listProducts);
-                request.getRequestDispatcher("/WEB-INF/buyProductForm.jsp").forward(request, response);
+        
+        switch (path) {
+            case "/listConsumers":
+                List<Consumers> listConsumers = consumerFacade.findAll();
+                request.setAttribute("listConsumers", listConsumers);
+                request.getRequestDispatcher("/WEB-INF/listConsumers.jsp").forward(request, response);
                 break;
                 
-            case "/buyProduct":
-                String productId = request.getParameter("productId");
-                Products product = productFacade.find(Long.parseLong(productId));
-                
-                Consumers consumer = user.getConsumers();
-                
-                if (product.getAmount()<=0){ 
-                    request.setAttribute("info","Товар недоступен");
-                    request.getRequestDispatcher("/buyProductForm").forward(request, response);
-                    break;
-                }
-                if (consumer.getMoney()<product.getPrice()) {
-                    request.setAttribute("info", "Недостаточно средств");
-                    request.getRequestDispatcher("/buyProductForm").forward(request, response);
-                    break;
-                }
-                consumer.setMoney(consumer.getMoney()-(product.getPrice()));
-                consumerFacade.edit(consumer);
-                product.setAmount(product.getAmount()-1);
-                productFacade.edit(product);
-                request.setAttribute("info","Товар куплен");
-                request.getRequestDispatcher("/index.jsp").forward(request, response);
-                break;
         }
     }
 

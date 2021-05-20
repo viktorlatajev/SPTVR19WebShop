@@ -7,9 +7,10 @@ package servlets;
 
 import entity.Consumers;
 import entity.Products;
+import entity.Role;
 import entity.User;
+import entity.UserRoles;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
@@ -20,24 +21,59 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import session.ConsumersFacade;
 import session.ProductsFacade;
+import session.RoleFacade;
 import session.UserFacade;
+import session.UserRolesFacade;
 
 /**
  *
  * @author Elena
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {
+@WebServlet(name = "LoginServlet", loadOnStartup = 1, urlPatterns = {
     "/showLoginForm",
     "/login",
     "/logout",
     "/addConsumer",
-    "/createCosnumer",
+    "/createConsumer",
     "/listProducts"
 })
 public class LoginServlet extends HttpServlet {
     @EJB private UserFacade userFacade;
     @EJB private ConsumersFacade consumerFacade;
     @EJB private ProductsFacade productFacade;
+    @EJB private RoleFacade roleFacade;
+    @EJB private UserRolesFacade userRolesFacade;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        if(userFacade.findAll().size() > 0) return;
+        // Супер админ
+        Consumers consumer = new Consumers("Viktor", "Latajev", 5000);
+        consumerFacade.create(consumer);
+        User user = new User("supadmin", "12345", consumer);
+        userFacade.create(user);
+        
+        // Роли
+        Role role = new Role("SUPER ADMIN");
+        roleFacade.create(role);
+        UserRoles userRoles = new UserRoles(user, role);
+        userRolesFacade.create(userRoles);
+        
+        role = new Role("ADMIN");
+        roleFacade.create(role);
+        userRoles = new UserRoles(user, role);
+        userRolesFacade.create(userRoles);
+        
+        role = new Role("CONSUMER");
+        roleFacade.create(role);
+        userRoles = new UserRoles(user, role);
+        userRolesFacade.create(userRoles);
+    }
+    
+    
+    
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -114,6 +150,9 @@ public class LoginServlet extends HttpServlet {
                 consumerFacade.create(consumer);
                 user = new User(login, password, consumer);
                 userFacade.create(user);
+                Role roleConsumer = roleFacade.findByName("CONSUMER");
+                UserRoles userRoles = new UserRoles(user, roleConsumer);
+                userRolesFacade.create(userRoles);
                 request.setAttribute("info","Покупатель добавлен: " +consumer.toString());
                 request.getRequestDispatcher("/index.jsp").forward(request, response);
                 break;
