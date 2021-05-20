@@ -5,14 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Редактирование покупателя</title>
-    </head>
-    <body>
-        <h1>Редактирование покупателя</h1>
+
+        <h3>Редактирование покупателя</h3>
         <p>${info}</p>
         <form action="editConsumer" method="POST">
             <input type="hidden" name="consumerId" value="${consumer.id}">
@@ -20,6 +14,4 @@
             Фамилия: <input type="text" name="lastName" value="${consumer.lastName}"><br>
             Деньги: <input type="text" name="money" value="${consumer.money}"><br>
             <input type="submit" name="submit" value="Изменить"><br>
-        </form>
-    </body>
-</html>
+

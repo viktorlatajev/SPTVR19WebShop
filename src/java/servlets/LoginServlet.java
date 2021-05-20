@@ -55,12 +55,12 @@ public class LoginServlet extends HttpServlet {
         userFacade.create(user);
         
         // Роли
-        Role role = new Role("SUPER ADMIN");
+        Role role = new Role("ADMIN");
         roleFacade.create(role);
         UserRoles userRoles = new UserRoles(user, role);
         userRolesFacade.create(userRoles);
         
-        role = new Role("ADMIN");
+        role = new Role("MANAGER");
         roleFacade.create(role);
         userRoles = new UserRoles(user, role);
         userRolesFacade.create(userRoles);
@@ -160,7 +160,7 @@ public class LoginServlet extends HttpServlet {
             case "/listProducts":
                 List<Products> listProducts = productFacade.findAll();
                 request.setAttribute("listProducts", listProducts);
-                request.getRequestDispatcher("/WEB-INF/listProducts.jsp").forward(request, response);
+                request.getRequestDispatcher("/WEB-INF/guest/listProducts.jsp").forward(request, response);
                 break;
             
         }

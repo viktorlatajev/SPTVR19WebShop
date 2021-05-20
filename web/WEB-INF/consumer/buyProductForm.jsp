@@ -4,16 +4,10 @@
     Author     : Elena
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Покупка товара</title>
-    </head>
-    <body>
-        <h1>Купить товар</h1>
+
+        <h3>Купить товар</h3>
         <p>${info}</p>
         <form action="buyProduct" method="POST">
             <select name="productId">
@@ -27,5 +21,4 @@
             <br>
             <input type="submit" value="Купить товар">
         </form>
-    </body>
-</html>
+

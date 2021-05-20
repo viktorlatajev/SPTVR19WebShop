@@ -5,14 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Добавить парник</title>
-    </head>
-    <body>
-        <h1>Добавить парник</h1>
+
+        <h3>Добавить парник</h3>
         <form action="createProduct" method="POST">
             Название: <input type="text" name="name" value="${name}"><br>
             Размер: <input type="text" name="size" value="${size}"><br>
@@ -20,5 +14,4 @@
             Цена: <input type="text" name="price" value="${price}"><br>
             <input type="submit" name="submit" value="Добавить"><br>
         </form>
-    </body>
-</html>
+

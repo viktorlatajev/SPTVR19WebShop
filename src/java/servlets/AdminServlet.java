@@ -64,7 +64,7 @@ public class AdminServlet extends HttpServlet {
             request.getRequestDispatcher("/WEB-INF/showLoginForm.jsp").forward(request, response);
             return;
         }
-        boolean isRole = userRolesFacade.isRole("SUPER ADMIN", user);
+        boolean isRole = userRolesFacade.isRole("ADMIN", user);
         if(!isRole) {
             request.setAttribute("info", "У вас нет прав! Войдите в систему с правами суперадмина!");
             request.getRequestDispatcher("/WEB-INF/showLoginForm.jsp").forward(request, response);

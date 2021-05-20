@@ -4,16 +4,10 @@
     Author     : Elena
 --%>
 
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Список покупателей</title>
-    </head>
-    <body>
-        <h1>Список покупателей</h1>
+
+        <h3>Список покупателей</h3>
         <form action="editConsumerForm" method="POST">
             <select name="consumerId" multiple="true">
                 <option value="">Список покупателей</option>
@@ -23,5 +17,4 @@
             </select>
         <input type="submit" value="Изменить">
         </form>
-    </body>
-</html>
+

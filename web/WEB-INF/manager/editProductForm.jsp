@@ -5,14 +5,8 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Редактирование товара</title>
-    </head>
-    <body>
-        <h1>Редактирование товара</h1>
+
+        <h3>Редактирование товара</h3>
         <p>${info}</p>
         <form action="editProduct" method="POST">
             <input type="hidden" name="productId" value="${product.id}">
@@ -22,5 +16,4 @@
             Цена: <input type="text" name="price" value="${product.price}"><br>
             <input type="submit" name="submit" value="Изменить"><br>
         </form>
-    </body>
-</html>
+
